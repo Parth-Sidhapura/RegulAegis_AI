@@ -1,0 +1,2247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RegulAegis AI — Compliance Intelligence Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&family=Fraunces:wght@700;800&display=swap" rel="stylesheet" />
+    <style>
+        /* ── Reset & Base ── */
+        
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+         :root {
+            --bg: #F8FAFC;
+            --surface: #FFFFFF;
+            --border: #E2E8F0;
+            --text-primary: #0F172A;
+            --text-secondary: #64748B;
+            --text-muted: #94A3B8;
+            --blue: #2563EB;
+            --blue-light: #EFF6FF;
+            --blue-mid: #DBEAFE;
+            --green: #10B981;
+            --green-light: #ECFDF5;
+            --amber: #F59E0B;
+            --amber-light: #FFFBEB;
+            --red: #EF4444;
+            --red-light: #FEF2F2;
+            --purple: #8B5CF6;
+            --purple-light: #F5F3FF;
+            --sidebar-w: 260px;
+            --radius: 12px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, .06), 0 1px 2px rgba(0, 0, 0, .04);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, .08), 0 2px 6px rgba(0, 0, 0, .04);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, .10), 0 4px 12px rgba(0, 0, 0, .06);
+            --transition: .2s cubic-bezier(.4, 0, .2, 1);
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        /* ── Sidebar ── */
+        
+        .sidebar {
+            width: var(--sidebar-w);
+            min-height: 100vh;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 100;
+            transition: transform var(--transition);
+            overflow: hidden;
+        }
+        
+        .sidebar-brand {
+            padding: 24px 20px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .brand-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 100%);
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .brand-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .brand-name {
+            font-family: 'Fraunces', serif;
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--text-primary);
+            line-height: 1.1;
+        }
+        
+        .brand-name span {
+            color: var(--blue);
+        }
+        
+        .brand-tagline {
+            font-size: 10px;
+            color: var(--text-muted);
+            letter-spacing: .04em;
+            margin-top: 2px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+        
+        .sidebar-nav {
+            flex: 1;
+            padding: 16px 12px;
+            overflow-y: auto;
+        }
+        
+        .nav-section-label {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            padding: 0 8px;
+            margin: 16px 0 6px;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 13.5px;
+            transition: all var(--transition);
+            text-decoration: none;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            position: relative;
+            margin-bottom: 2px;
+        }
+        
+        .nav-item svg {
+            width: 17px;
+            height: 17px;
+            flex-shrink: 0;
+        }
+        
+        .nav-item:hover {
+            background: var(--blue-light);
+            color: var(--blue);
+        }
+        
+        .nav-item.active {
+            background: var(--blue-light);
+            color: var(--blue);
+            font-weight: 600;
+        }
+        
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 6px;
+            bottom: 6px;
+            width: 3px;
+            background: var(--blue);
+            border-radius: 0 2px 2px 0;
+        }
+        
+        .nav-badge {
+            margin-left: auto;
+            background: var(--red);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 10px;
+            min-width: 18px;
+            text-align: center;
+        }
+        
+        .sidebar-footer {
+            padding: 16px 12px;
+            border-top: 1px solid var(--border);
+        }
+        
+        .sidebar-footer-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            background: var(--blue-light);
+        }
+        
+        .sidebar-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .sidebar-user-name {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .sidebar-user-role {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+        /* ── Top Bar ── */
+        
+        .topbar {
+            position: fixed;
+            top: 0;
+            left: var(--sidebar-w);
+            right: 0;
+            height: 60px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 28px;
+            z-index: 50;
+            gap: 16px;
+        }
+        
+        .topbar-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 8px;
+            color: var(--text-secondary);
+        }
+        
+        .topbar-menu-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .topbar-title {
+            font-family: 'Fraunces', serif;
+            font-size: 19px;
+            font-weight: 800;
+            color: var(--text-primary);
+            flex: 1;
+        }
+        
+        .topbar-title span {
+            color: var(--blue);
+        }
+        
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .topbar-chip {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .chip-live {
+            background: var(--green-light);
+            color: var(--green);
+            border: 1px solid #A7F3D0;
+        }
+        
+        .chip-live::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--green);
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: .5;
+                transform: scale(1.3);
+            }
+        }
+        
+        .topbar-btn {
+            padding: 7px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text-secondary);
+            transition: all var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .topbar-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+        
+        .topbar-btn:hover {
+            border-color: var(--blue);
+            color: var(--blue);
+            background: var(--blue-light);
+        }
+        /* ── Main ── */
+        
+        .main {
+            margin-left: var(--sidebar-w);
+            margin-top: 60px;
+            flex: 1;
+            min-height: calc(100vh - 60px);
+            padding: 28px;
+        }
+        /* ── Views ── */
+        
+        .view {
+            display: none;
+            animation: fadeIn .3s ease;
+        }
+        
+        .view.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* ── Section Header ── */
+        
+        .section-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .section-title {
+            font-family: 'Fraunces', serif;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+        
+        .section-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+        
+        .section-action {
+            font-size: 12.5px;
+            color: var(--blue);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--blue-mid);
+            background: var(--blue-light);
+            transition: all var(--transition);
+        }
+        
+        .section-action:hover {
+            background: var(--blue-mid);
+        }
+        /* ── KPI Cards ── */
+        
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+        
+        .kpi-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            transition: box-shadow var(--transition), transform var(--transition);
+        }
+        
+        .kpi-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+        
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+        
+        .kpi-card.blue::before {
+            background: linear-gradient(90deg, var(--blue), #60A5FA);
+        }
+        
+        .kpi-card.green::before {
+            background: linear-gradient(90deg, var(--green), #34D399);
+        }
+        
+        .kpi-card.amber::before {
+            background: linear-gradient(90deg, var(--amber), #FCD34D);
+        }
+        
+        .kpi-card.red::before {
+            background: linear-gradient(90deg, var(--red), #F87171);
+        }
+        
+        .kpi-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+        }
+        
+        .kpi-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .kpi-card.blue .kpi-icon {
+            background: var(--blue-light);
+            color: var(--blue);
+        }
+        
+        .kpi-card.green .kpi-icon {
+            background: var(--green-light);
+            color: var(--green);
+        }
+        
+        .kpi-card.amber .kpi-icon {
+            background: var(--amber-light);
+            color: var(--amber);
+        }
+        
+        .kpi-card.red .kpi-icon {
+            background: var(--red-light);
+            color: var(--red);
+        }
+        
+        .kpi-value {
+            font-family: 'Fraunces', serif;
+            font-size: 34px;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        
+        .kpi-card.blue .kpi-value {
+            color: var(--blue);
+        }
+        
+        .kpi-card.green .kpi-value {
+            color: var(--green);
+        }
+        
+        .kpi-card.amber .kpi-value {
+            color: var(--amber);
+        }
+        
+        .kpi-card.red .kpi-value {
+            color: var(--red);
+        }
+        
+        .kpi-label {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        
+        .kpi-trend {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11.5px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        
+        .kpi-trend.up {
+            color: var(--green);
+        }
+        
+        .kpi-trend.down {
+            color: var(--red);
+        }
+        /* ── Two-col layout ── */
+        
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+        
+        .three-col {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+        /* ── Card ── */
+        
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        
+        .card-header {
+            padding: 18px 20px 14px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        
+        .card-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .card-title svg {
+            width: 16px;
+            height: 16px;
+            color: var(--blue);
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        /* ── Alerts ── */
+        
+        .alert-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .alert-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px 16px;
+            border-radius: 10px;
+            border-left: 4px solid transparent;
+            background: var(--bg);
+            transition: background var(--transition);
+        }
+        
+        .alert-item:hover {
+            background: #F1F5F9;
+        }
+        
+        .alert-item.critical {
+            border-left-color: var(--red);
+            background: #FFF5F5;
+        }
+        
+        .alert-item.high {
+            border-left-color: var(--amber);
+            background: #FFFDF0;
+        }
+        
+        .alert-item.medium {
+            border-left-color: var(--blue);
+            background: var(--blue-light);
+        }
+        
+        .alert-item.low {
+            border-left-color: var(--green);
+            background: var(--green-light);
+        }
+        
+        .alert-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-top: 5px;
+            flex-shrink: 0;
+        }
+        
+        .alert-item.critical .alert-dot {
+            background: var(--red);
+        }
+        
+        .alert-item.high .alert-dot {
+            background: var(--amber);
+        }
+        
+        .alert-item.medium .alert-dot {
+            background: var(--blue);
+        }
+        
+        .alert-item.low .alert-dot {
+            background: var(--green);
+        }
+        
+        .alert-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .alert-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+        
+        .alert-meta {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        /* ── Risk Panel ── */
+        
+        .risk-score-ring {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .risk-ring {
+            position: relative;
+            width: 110px;
+            height: 110px;
+        }
+        
+        .risk-ring svg {
+            transform: rotate(-90deg);
+        }
+        
+        .risk-ring-text {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .risk-ring-value {
+            font-family: 'Fraunces', serif;
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--red);
+            line-height: 1;
+        }
+        
+        .risk-ring-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-top: 2px;
+        }
+        
+        .risk-meta {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .risk-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11.5px;
+            font-weight: 600;
+        }
+        
+        .badge-red {
+            background: var(--red-light);
+            color: var(--red);
+        }
+        
+        .badge-amber {
+            background: var(--amber-light);
+            color: var(--amber);
+        }
+        
+        .badge-green {
+            background: var(--green-light);
+            color: var(--green);
+        }
+        
+        .badge-blue {
+            background: var(--blue-light);
+            color: var(--blue);
+        }
+        
+        .badge-purple {
+            background: var(--purple-light);
+            color: var(--purple);
+        }
+        
+        .risk-section-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+        
+        .risk-reasons {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+        
+        .risk-reasons li {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 12.5px;
+            color: var(--text-secondary);
+        }
+        
+        .risk-reasons li::before {
+            content: '→';
+            color: var(--red);
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        
+        .risk-ai-box {
+            background: var(--purple-light);
+            border: 1px solid #DDD6FE;
+            border-radius: 10px;
+            padding: 14px;
+            font-size: 12.5px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            position: relative;
+        }
+        
+        .risk-ai-box::before {
+            content: '🤖 AI Analysis';
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--purple);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+        }
+        /* ── Timeline ── */
+        
+        .timeline-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            position: relative;
+        }
+        
+        .timeline-track {
+            position: absolute;
+            left: 19px;
+            top: 12px;
+            bottom: 12px;
+            width: 2px;
+            background: linear-gradient(180deg, var(--blue) 0%, var(--purple) 100%);
+            opacity: .2;
+        }
+        
+        .timeline-item {
+            display: flex;
+            gap: 16px;
+            padding: 0 0 22px;
+            position: relative;
+        }
+        
+        .timeline-dot-wrap {
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .timeline-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2.5px solid var(--surface);
+            box-shadow: 0 0 0 2px currentColor;
+            flex-shrink: 0;
+            margin-top: 3px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .timeline-dot.critical {
+            color: var(--red);
+            background: var(--red);
+        }
+        
+        .timeline-dot.high {
+            color: var(--amber);
+            background: var(--amber);
+        }
+        
+        .timeline-dot.medium {
+            color: var(--blue);
+            background: var(--blue);
+        }
+        
+        .timeline-dot.low {
+            color: var(--green);
+            background: var(--green);
+        }
+        
+        .timeline-dot.info {
+            color: var(--purple);
+            background: var(--purple);
+        }
+        
+        .timeline-content {
+            flex: 1;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 16px;
+            transition: box-shadow var(--transition);
+        }
+        
+        .timeline-content:hover {
+            box-shadow: var(--shadow-md);
+        }
+        
+        .timeline-type {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: var(--blue);
+            margin-bottom: 3px;
+        }
+        
+        .timeline-title {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        
+        .timeline-footer {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+        
+        .timeline-date {
+            font-size: 11.5px;
+            color: var(--text-muted);
+            font-family: 'DM Mono', monospace;
+        }
+        
+        .status-chip {
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .status-open {
+            background: var(--red-light);
+            color: var(--red);
+        }
+        
+        .status-resolved {
+            background: var(--green-light);
+            color: var(--green);
+        }
+        
+        .status-pending {
+            background: var(--amber-light);
+            color: var(--amber);
+        }
+        
+        .status-review {
+            background: var(--blue-light);
+            color: var(--blue);
+        }
+        
+        .status-closed {
+            background: #F1F5F9;
+            color: var(--text-muted);
+        }
+        /* ── Memory Insights ── */
+        
+        .chain-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        
+        .chain-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+        
+        .chain-card {
+            width: 100%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all var(--transition);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chain-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateX(4px);
+        }
+        
+        .chain-card:nth-child(1n) {
+            border-left: 3px solid var(--blue);
+        }
+        
+        .chain-num {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--blue-light);
+            color: var(--blue);
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .chain-text {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .chain-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 28px;
+            color: var(--blue);
+            font-size: 18px;
+            opacity: .5;
+        }
+        /* ── Color coding per chain position ── */
+        
+        .chain-item:nth-child(1) .chain-card {
+            border-left-color: var(--blue);
+        }
+        
+        .chain-item:nth-child(1) .chain-num {
+            background: var(--blue-light);
+            color: var(--blue);
+        }
+        
+        .chain-item:nth-child(2) .chain-card {
+            border-left-color: var(--green);
+        }
+        
+        .chain-item:nth-child(2) .chain-num {
+            background: var(--green-light);
+            color: var(--green);
+        }
+        
+        .chain-item:nth-child(3) .chain-card {
+            border-left-color: var(--amber);
+        }
+        
+        .chain-item:nth-child(3) .chain-num {
+            background: var(--amber-light);
+            color: var(--amber);
+        }
+        
+        .chain-item:nth-child(4) .chain-card {
+            border-left-color: var(--red);
+        }
+        
+        .chain-item:nth-child(4) .chain-num {
+            background: var(--red-light);
+            color: var(--red);
+        }
+        
+        .chain-item:nth-child(5) .chain-card {
+            border-left-color: var(--purple);
+        }
+        
+        .chain-item:nth-child(5) .chain-num {
+            background: var(--purple-light);
+            color: var(--purple);
+        }
+        
+        .insight-summary {
+            margin-top: 20px;
+            background: linear-gradient(135deg, #EFF6FF 0%, #F5F3FF 100%);
+            border: 1px solid var(--blue-mid);
+            border-radius: 10px;
+            padding: 16px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        
+        .insight-summary strong {
+            color: var(--blue);
+        }
+        /* ── Form ── */
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+        
+        .form-label {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        
+        .form-control {
+            padding: 9px 12px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13.5px;
+            color: var(--text-primary);
+            background: var(--surface);
+            transition: border-color var(--transition), box-shadow var(--transition);
+            outline: none;
+        }
+        
+        .form-control:focus {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, .12);
+        }
+        
+        .form-control::placeholder {
+            color: var(--text-muted);
+        }
+        
+        select.form-control {
+            cursor: pointer;
+        }
+        
+        textarea.form-control {
+            resize: vertical;
+            min-height: 90px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: var(--blue);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, .3);
+        }
+        
+        .btn-primary:hover {
+            background: #1D4ED8;
+            box-shadow: 0 4px 16px rgba(37, 99, 235, .4);
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: var(--surface);
+            color: var(--text-secondary);
+            border: 1.5px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--blue);
+            color: var(--blue);
+            background: var(--blue-light);
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+        /* ── Toast ── */
+        
+        #toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .toast {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 18px 12px 14px;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13.5px;
+            font-weight: 500;
+            min-width: 260px;
+            max-width: 360px;
+            animation: slideUp .3s ease;
+            border-left: 4px solid var(--green);
+        }
+        
+        .toast.error {
+            border-left-color: var(--red);
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* ── Skeleton Loader ── */
+        
+        .skeleton {
+            background: linear-gradient(90deg, #F1F5F9 25%, #E2E8F0 50%, #F1F5F9 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.4s infinite;
+            border-radius: 6px;
+        }
+        
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+        
+        .skeleton-kpi {
+            height: 100px;
+            border-radius: var(--radius);
+        }
+        
+        .skeleton-row {
+            height: 18px;
+            margin-bottom: 8px;
+        }
+        
+        .skeleton-row.half {
+            width: 55%;
+        }
+        
+        .skeleton-row.third {
+            width: 30%;
+        }
+        /* ── Loader Spinner ── */
+        
+        .loader-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            color: var(--text-muted);
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid var(--border);
+            border-top-color: var(--blue);
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        /* ── Empty State ── */
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+        }
+        
+        .empty-state svg {
+            width: 40px;
+            height: 40px;
+            opacity: .4;
+            margin-bottom: 10px;
+        }
+        
+        .empty-state p {
+            font-size: 13.5px;
+        }
+        /* ── Error Banner ── */
+        
+        .error-banner {
+            background: var(--red-light);
+            border: 1px solid #FECACA;
+            border-radius: 10px;
+            padding: 14px 18px;
+            font-size: 13px;
+            color: var(--red);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        /* ── Overlay for mobile ── */
+        
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .4);
+            z-index: 90;
+        }
+        
+        .sidebar-overlay.active {
+            display: block;
+        }
+        /* ── Risks View ── */
+        
+        .risk-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+        }
+        
+        .risk-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .risk-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+        
+        .risk-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--red), var(--amber));
+        }
+        
+        .risk-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        
+        .risk-card-id {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+        
+        .risk-card-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        
+        .risk-card-dept {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+        
+        .risk-score-bar {
+            margin-top: 12px;
+        }
+        
+        .risk-score-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+        
+        .risk-score-text {
+            font-size: 11.5px;
+            color: var(--text-muted);
+        }
+        
+        .risk-score-val {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--red);
+        }
+        
+        .progress-track {
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 3px;
+            background: linear-gradient(90deg, var(--red), var(--amber));
+            transition: width .8s ease;
+        }
+        /* ── Responsive ── */
+        
+        @media (max-width: 1100px) {
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+            .three-col {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+                box-shadow: var(--shadow-lg);
+            }
+            .main {
+                margin-left: 0;
+                padding: 16px;
+            }
+            .topbar {
+                left: 0;
+                padding: 0 16px;
+            }
+            .topbar-menu-btn {
+                display: flex;
+            }
+            .kpi-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .topbar-chip {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+            .main {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar Overlay (mobile) -->
+    <div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-logo">
+                <div class="brand-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L3 7l9 5 9-5-9-5zM3 17l9 5 9-5M3 12l9 5 9-5"/>
+        </svg>
+                </div>
+                <div>
+                    <div class="brand-name">Regul<span>Aegis</span></div>
+                    <div class="brand-tagline">Compliance AI</div>
+                </div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Main</div>
+
+            <button class="nav-item active" data-view="dashboard" onclick="navigate('dashboard', this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+      </svg>
+      Dashboard
+    </button>
+
+            <button class="nav-item" data-view="risks" onclick="navigate('risks', this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4M12 17h.01"/>
+      </svg>
+      Risks
+      <span class="nav-badge" id="risk-badge">—</span>
+    </button>
+
+            <button class="nav-item" data-view="timeline" onclick="navigate('timeline', this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+      Timeline
+    </button>
+
+            <div class="nav-section-label">Actions</div>
+
+            <button class="nav-item" data-view="add-event" onclick="navigate('add-event', this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+      </svg>
+      Add Event
+    </button>
+
+            <div class="nav-section-label">Intelligence</div>
+
+            <button class="nav-item" data-view="memory" onclick="navigate('memory', this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.46 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.89A2.5 2.5 0 0 1 9.5 2M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.46 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.89A2.5 2.5 0 0 0 14.5 2"/>
+      </svg>
+      Memory Insights
+    </button>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="sidebar-footer-info">
+                <div class="sidebar-avatar">CA</div>
+                <div>
+                    <div class="sidebar-user-name">Compliance Admin</div>
+                    <div class="sidebar-user-role">Administrator</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Topbar -->
+    <header class="topbar">
+        <button class="topbar-menu-btn" onclick="toggleSidebar()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+        <div class="topbar-title" id="topbar-title">Compliance <span>Dashboard</span></div>
+        <div class="topbar-actions">
+            <div class="topbar-chip chip-live">Live Monitoring</div>
+            <button class="topbar-btn" onclick="refreshAll()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/>
+      </svg>
+      Refresh
+    </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+
+        <!-- ── DASHBOARD VIEW ── -->
+        <div class="view active" id="view-dashboard">
+
+            <!-- KPI Cards -->
+            <div class="section-header">
+                <div>
+                    <div class="section-title">Overview</div>
+                    <div class="section-subtitle">Real-time compliance intelligence at a glance</div>
+                </div>
+            </div>
+
+            <div class="kpi-grid" id="kpi-grid">
+                <div class="skeleton skeleton-kpi"></div>
+                <div class="skeleton skeleton-kpi"></div>
+                <div class="skeleton skeleton-kpi"></div>
+                <div class="skeleton skeleton-kpi"></div>
+            </div>
+
+            <!-- Two-col: Alerts + Risk Panel -->
+            <div class="three-col">
+                <!-- Active Alerts -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg> Active Alerts
+                        </div>
+                        <span class="risk-badge badge-red" id="alerts-count">—</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert-list" id="alerts-list">
+                            <div class="loader-wrap">
+                                <div class="spinner"></div><span>Loading alerts…</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Risk Intelligence -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+            </svg> Risk Intelligence
+                        </div>
+                        <span class="risk-badge badge-red">RISK001</span>
+                    </div>
+                    <div class="card-body" id="risk-panel">
+                        <div class="loader-wrap">
+                            <div class="spinner"></div><span>Analyzing risk…</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline preview -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg> Compliance Timeline
+                    </div>
+                    <div class="section-action" onclick="navigate('timeline', document.querySelector('[data-view=timeline]'))">
+                        View all →
+                    </div>
+                </div>
+                <div class="card-body" id="dashboard-timeline">
+                    <div class="loader-wrap">
+                        <div class="spinner"></div><span>Loading timeline…</span></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ── RISKS VIEW ── -->
+        <div class="view" id="view-risks">
+            <div class="section-header">
+                <div>
+                    <div class="section-title">Risk Register</div>
+                    <div class="section-subtitle">All tracked compliance risks across departments</div>
+                </div>
+            </div>
+            <div class="risk-grid" id="risk-grid">
+                <div class="loader-wrap">
+                    <div class="spinner"></div><span>Loading risks…</span></div>
+            </div>
+        </div>
+
+        <!-- ── TIMELINE VIEW ── -->
+        <div class="view" id="view-timeline">
+            <div class="section-header">
+                <div>
+                    <div class="section-title">Compliance Timeline</div>
+                    <div class="section-subtitle">Full history of compliance events and milestones</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div style="position:relative;" id="timeline-wrap">
+                        <div class="loader-wrap">
+                            <div class="spinner"></div><span>Loading timeline…</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── ADD EVENT VIEW ── -->
+        <div class="view" id="view-add-event">
+            <div class="section-header">
+                <div>
+                    <div class="section-title">Add Compliance Event</div>
+                    <div class="section-subtitle">Log a new compliance event or finding</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-grid" id="event-form">
+                        <div class="form-group">
+                            <label class="form-label">Event Type *</label>
+                            <select class="form-control" id="f-type">
+              <option value="">Select event type</option>
+              <option>Audit Finding</option>
+              <option>Risk Assessment</option>
+              <option>Policy Violation</option>
+              <option>Remediation</option>
+              <option>Regulatory Update</option>
+              <option>Control Failure</option>
+              <option>Incident</option>
+            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Department *</label>
+                            <select class="form-control" id="f-dept">
+              <option value="">Select department</option>
+              <option>IT</option>
+              <option>Finance</option>
+              <option>Legal</option>
+              <option>HR</option>
+              <option>Operations</option>
+              <option>Compliance</option>
+              <option>Risk Management</option>
+            </select>
+                        </div>
+                        <div class="form-group full">
+                            <label class="form-label">Title *</label>
+                            <input type="text" class="form-control" id="f-title" placeholder="Brief descriptive title of the event" />
+                        </div>
+                        <div class="form-group full">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" id="f-desc" placeholder="Detailed description of the compliance event, findings, and context…"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Severity *</label>
+                            <select class="form-control" id="f-severity">
+              <option value="">Select severity</option>
+              <option>Critical</option>
+              <option>High</option>
+              <option>Medium</option>
+              <option>Low</option>
+            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Status *</label>
+                            <select class="form-control" id="f-status">
+              <option value="">Select status</option>
+              <option>Open</option>
+              <option>Pending</option>
+              <option>In Review</option>
+              <option>Resolved</option>
+              <option>Closed</option>
+            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Date *</label>
+                            <input type="date" class="form-control" id="f-date" />
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-secondary" onclick="resetForm()">Reset</button>
+                        <button class="btn btn-primary" onclick="submitEvent()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+            Submit Event
+          </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── MEMORY INSIGHTS VIEW ── -->
+        <div class="view" id="view-memory">
+            <div class="section-header">
+                <div>
+                    <div class="section-title">Memory Insights</div>
+                    <div class="section-subtitle">AI-powered relationship chain — how compliance failures escalate</div>
+                </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;" id="memory-layout">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--purple)">
+              <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.46"/>
+            </svg> Relationship Chain
+                        </div>
+                    </div>
+                    <div class="card-body" id="chain-container">
+                        <div class="loader-wrap">
+                            <div class="spinner"></div><span>Loading insights…</span></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--blue)">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg> Pattern Analysis
+                        </div>
+                    </div>
+                    <div class="card-body" id="pattern-panel">
+                        <div class="loader-wrap">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <script>
+        const API_BASE = "http://127.0.0.1:8000";
+
+        /* ── Navigation ── */
+        const PAGE_TITLES = {
+            'dashboard': 'Compliance <span>Dashboard</span>',
+            'risks': 'Risk <span>Register</span>',
+            'timeline': 'Compliance <span>Timeline</span>',
+            'add-event': 'Add <span>Event</span>',
+            'memory': 'Memory <span>Insights</span>',
+        };
+
+        function navigate(view, btn) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('view-' + view).classList.add('active');
+            if (btn) btn.classList.add('active');
+            document.getElementById('topbar-title').innerHTML = PAGE_TITLES[view] || view;
+            closeSidebar();
+            loadView(view);
+        }
+
+        function loadView(view) {
+            switch (view) {
+                case 'dashboard':
+                    loadDashboard();
+                    loadAlerts();
+                    loadRiskPanel();
+                    loadDashboardTimeline();
+                    break;
+                case 'risks':
+                    loadRisks();
+                    break;
+                case 'timeline':
+                    loadTimeline();
+                    break;
+                case 'memory':
+                    loadMemory();
+                    break;
+            }
+        }
+
+        /* ── Sidebar mobile ── */
+        function toggleSidebar() {
+            const s = document.getElementById('sidebar');
+            const o = document.getElementById('overlay');
+            s.classList.toggle('open');
+            o.classList.toggle('active');
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('overlay').classList.remove('active');
+        }
+
+        /* ── API Helper ── */
+        async function api(path, opts = {}) {
+            const res = await fetch(API_BASE + path, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...opts.headers
+                },
+                ...opts
+            });
+            if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+            return res.json();
+        }
+
+        /* ── Toast ── */
+        function showToast(msg, type = 'success') {
+            const c = document.getElementById('toast-container');
+            const t = document.createElement('div');
+            t.className = 'toast' + (type === 'error' ? ' error' : '');
+            const icon = type === 'success' ?
+                `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>` :
+                `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`;
+            t.innerHTML = icon + msg;
+            c.appendChild(t);
+            setTimeout(() => t.remove(), 4500);
+        }
+
+        /* ── Severity → CSS class ── */
+        function sevClass(s = '') {
+            s = s.toLowerCase();
+            if (s === 'critical') return 'critical';
+            if (s === 'high') return 'high';
+            if (s === 'medium') return 'medium';
+            return 'low';
+        }
+
+        function statusClass(s = '') {
+            s = s.toLowerCase().replace(/\s+/g, '-');
+            if (s === 'open') return 'status-open';
+            if (s === 'resolved') return 'status-resolved';
+            if (s.includes('pending')) return 'status-pending';
+            if (s.includes('review')) return 'status-review';
+            return 'status-closed';
+        }
+
+        function formatDate(d) {
+            if (!d) return '—';
+            try {
+                return new Date(d).toLocaleDateString('en-GB', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                });
+            } catch {
+                return d;
+            }
+        }
+
+        /* ── Error Block ── */
+        function errorBlock(msg) {
+            return `<div class="error-banner"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>${msg}</div>`;
+        }
+
+        /* ── KPI Cards ── */
+        async function loadDashboard() {
+            const grid = document.getElementById('kpi-grid');
+            try {
+                const d = await api('/dashboard');
+                grid.innerHTML = `
+      <div class="kpi-card blue">
+        <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div class="kpi-value">${d.compliance_score ?? '—'}<span style="font-size:18px;font-weight:600;">%</span></div>
+        <div class="kpi-label">Compliance Score</div>
+        <div class="kpi-trend up"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg> Overall health indicator</div>
+      </div>
+      <div class="kpi-card amber">
+        <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+        <div class="kpi-value">${d.open_findings ?? '—'}</div>
+        <div class="kpi-label">Open Findings</div>
+        <div class="kpi-trend down"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 9 12 15 6 9"/></svg> Requires attention</div>
+      </div>
+      <div class="kpi-card red">
+        <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4M12 17h.01"/></svg></div>
+        <div class="kpi-value">${d.critical_risks ?? '—'}</div>
+        <div class="kpi-label">Critical Risks</div>
+        <div class="kpi-trend down"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 9 12 15 6 9"/></svg> Immediate action needed</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="kpi-value">${d.missed_deadlines ?? '—'}</div>
+        <div class="kpi-label">Missed Deadlines</div>
+        <div class="kpi-trend down"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 9 12 15 6 9"/></svg> Past due items</div>
+      </div>`;
+                // Update risk badge
+                document.getElementById('risk-badge').textContent = d.critical_risks || '—';
+            } catch (e) {
+                grid.innerHTML = `<div class="kpi-card" style="grid-column:1/-1;">${errorBlock('Failed to load dashboard: ' + e.message)}</div>`;
+            }
+        }
+
+        /* ── Alerts ── */
+        async function loadAlerts() {
+            const el = document.getElementById('alerts-list');
+            try {
+                const data = await api('/alerts');
+                const alerts = Array.isArray(data) ? data : (data.alerts || []);
+                document.getElementById('alerts-count').textContent = alerts.length;
+                if (!alerts.length) {
+                    el.innerHTML = `<div class="empty-state"><p>No active alerts</p></div>`;
+                    return;
+                }
+                el.innerHTML = alerts.map(a => `
+      <div class="alert-item ${sevClass(a.severity || a.level || '')}">
+        <div class="alert-dot"></div>
+        <div>
+          <div class="alert-title">${a.title || a.name || 'Alert'}</div>
+          ${a.description || a.message ? `<div class="alert-desc">${a.description || a.message}</div>` : ''}
+          <div class="alert-meta">${a.department ? a.department + ' · ' : ''}${a.severity || a.level || ''} ${a.date ? '· ' + formatDate(a.date) : ''}</div>
+        </div>
+      </div>`).join('');
+  } catch(e) {
+    el.innerHTML = errorBlock('Failed to load alerts: ' + e.message);
+  }
+}
+
+/* ── Risk Panel ── */
+async function loadRiskPanel() {
+  const el = document.getElementById('risk-panel');
+  try {
+    const r = await api('/risk/RISK001');
+    const score = r.risk_score || 0;
+    const circ = 2 * Math.PI * 45;
+    const dash = circ - (score / 100) * circ;
+    el.innerHTML = `
+      <div class="risk-score-ring">
+        <div class="risk-ring">
+          <svg width="110" height="110" viewBox="0 0 110 110">
+            <circle cx="55" cy="55" r="45" fill="none" stroke="#F1F5F9" stroke-width="10"/>
+            <circle cx="55" cy="55" r="45" fill="none" stroke="#EF4444" stroke-width="10"
+              stroke-dasharray="${circ}" stroke-dashoffset="${dash}"
+              stroke-linecap="round" style="transition:stroke-dashoffset 1s ease;"/>
+          </svg>
+          <div class="risk-ring-text">
+            <div class="risk-ring-value">${score}</div>
+            <div class="risk-ring-label">SCORE</div>
+          </div>
+        </div>
+      </div>
+      <div class="risk-meta">
+        <span class="risk-badge badge-red">${r.status || 'High'}</span>
+        <span class="risk-badge badge-amber">${r.severity || 'High'}</span>
+        <span class="risk-badge badge-blue">${r.department || 'IT'}</span>
+      </div>
+      <div class="risk-section-label">Risk Title</div>
+      <div style="font-weight:700;font-size:13.5px;margin-bottom:14px;color:var(--text-primary);">${r.title || 'Compliance Risk'}</div>
+      ${r.reasons && r.reasons.length ? `
+        <div class="risk-section-label">Key Reasons</div>
+        <ul class="risk-reasons">${r.reasons.map(x => `<li>${x}</li>`).join('')}</ul>` : ''}
+      ${r.ai_analysis ? `
+        <div class="risk-section-label">AI Analysis</div>
+        <div class="risk-ai-box">${r.ai_analysis}</div>` : ''}`;
+  } catch(e) {
+    el.innerHTML = errorBlock('Failed to load risk data: ' + e.message);
+  }
+}
+
+/* ── Timeline (shared render) ── */
+function renderTimelineItems(events, limit) {
+  if (!events.length) return `<div class="empty-state"><p>No timeline events found</p></div>`;
+  const items = limit ? events.slice(0, limit) : events;
+  return `
+    <div class="timeline-list" style="position:relative;">
+      <div class="timeline-track"></div>
+      ${items.map(e => `
+        <div class="timeline-item">
+          <div class="timeline-dot-wrap">
+            <div class="timeline-dot ${sevClass(e.severity || e.level || '')}"></div>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-type">${e.event_type || e.type || 'Event'}</div>
+            <div class="timeline-title">${e.title || e.name || 'Untitled'}</div>
+            <div class="timeline-footer">
+              <span class="timeline-date">${formatDate(e.date || e.timestamp)}</span>
+              ${e.severity ? `<span class="risk-badge badge-${sevClass(e.severity) === 'critical' ? 'red' : sevClass(e.severity) === 'high' ? 'amber' : sevClass(e.severity) === 'medium' ? 'blue' : 'green'}">${e.severity}</span>` : ''}
+              ${e.status ? `<span class="status-chip ${statusClass(e.status)}">${e.status}</span>` : ''}
+            </div>
+          </div>
+        </div>`).join('')}
+    </div>`;
+}
+
+async function loadDashboardTimeline() {
+  const el = document.getElementById('dashboard-timeline');
+  try {
+    const data = await api('/timeline');
+    const events = Array.isArray(data) ? data : (data.events || data.timeline || []);
+    el.innerHTML = renderTimelineItems(events, 5);
+  } catch(e) {
+    el.innerHTML = errorBlock('Failed to load timeline: ' + e.message);
+  }
+}
+
+async function loadTimeline() {
+  const el = document.getElementById('timeline-wrap');
+  el.innerHTML = `<div class="loader-wrap"><div class="spinner"></div><span>Loading timeline…</span></div>`;
+  try {
+    const data = await api('/timeline');
+    const events = Array.isArray(data) ? data : (data.events || data.timeline || []);
+    el.innerHTML = renderTimelineItems(events);
+  } catch(e) {
+    el.innerHTML = errorBlock('Failed to load timeline: ' + e.message);
+  }
+}
+
+/* ── Risks Grid ── */
+async function loadRisks() {
+  const el = document.getElementById('risk-grid');
+  try {
+    const data = await api('/risks');
+    const risks = Array.isArray(data) ? data : (data.risks || []);
+    if (!risks.length) { el.innerHTML = `<div class="empty-state"><p>No risks found</p></div>`; return; }
+    el.innerHTML = risks.map(r => `
+      <div class="risk-card">
+        <div class="risk-card-header">
+          <div class="risk-card-id">${r.id || 'RISK'}</div>
+          <div class="risk-meta" style="gap:6px;">
+            <span class="risk-badge ${r.severity === 'Critical' ? 'badge-red' : r.severity === 'High' ? 'badge-amber' : 'badge-blue'}">${r.severity || r.status || '—'}</span>
+          </div>
+        </div>
+        <div class="risk-card-title">${r.title || 'Risk Item'}</div>
+        <div class="risk-card-dept">${r.department ? '📁 ' + r.department : ''}</div>
+        <div class="risk-score-bar">
+          <div class="risk-score-row">
+            <span class="risk-score-text">Risk Score</span>
+            <span class="risk-score-val">${r.risk_score || '—'}</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" style="width:${r.risk_score || 0}%"></div>
+          </div>
+        </div>
+      </div>`).join('');
+  } catch(e) {
+    el.innerHTML = errorBlock('Failed to load risks: ' + e.message);
+  }
+}
+
+/* ── Memory Insights ── */
+async function loadMemory() {
+  const chainEl = document.getElementById('chain-container');
+  const patternEl = document.getElementById('pattern-panel');
+  try {
+    const data = await api('/relationships');
+    const rels = data.relationships || [];
+    if (!rels.length) {
+      chainEl.innerHTML = `<div class="empty-state"><p>No relationship data found</p></div>`;
+      patternEl.innerHTML = '';
+      return;
+    }
+    const colors = ['var(--blue)', 'var(--green)', 'var(--amber)', 'var(--red)', 'var(--purple)'];
+    chainEl.innerHTML = `
+      <div class="chain-container">
+        ${rels.map((r, i) => `
+          <div class="chain-item">
+            <div class="chain-card">
+              <div class="chain-num">${i + 1}</div>
+              <div class="chain-text">${r}</div>
+            </div>
+            ${i < rels.length - 1 ? '<div class="chain-arrow">↓</div>' : ''}
+          </div>`).join('')}
+      </div>`;
+
+    patternEl.innerHTML = `
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div style="background:var(--red-light);border:1px solid #FECACA;border-radius:10px;padding:14px;">
+          <div style="font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;">⚠ Escalation Pattern</div>
+          <div style="font-size:13px;color:var(--text-secondary);line-height:1.7;">This chain shows a classic compliance failure cascade — initial findings go unresolved, leading to remediation failure and ultimately elevated risk exposure.</div>
+        </div>
+        <div style="background:var(--amber-light);border:1px solid #FDE68A;border-radius:10px;padding:14px;">
+          <div style="font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;">📊 Chain Length</div>
+          <div style="font-size:13px;color:var(--text-secondary);">${rels.length} relationship nodes detected across this compliance event chain.</div>
+        </div>
+        <div style="background:var(--green-light);border:1px solid #A7F3D0;border-radius:10px;padding:14px;">
+          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;">💡 AI Recommendation</div>
+          <div style="font-size:13px;color:var(--text-secondary);line-height:1.7;">Intervene at the <strong>Remediation Assigned</strong> stage with automated follow-ups to prevent failure propagation and reduce future audit risk.</div>
+        </div>
+        <div style="background:var(--purple-light);border:1px solid #DDD6FE;border-radius:10px;padding:14px;">
+          <div style="font-size:11px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;">🧠 Historical Memory</div>
+          <div style="font-size:13px;color:var(--text-secondary);line-height:1.7;">RegulAegis has recorded this escalation pattern. Future similar events will trigger early-warning alerts before reaching critical status.</div>
+        </div>
+      </div>`;
+  } catch(e) {
+    chainEl.innerHTML = errorBlock('Failed to load memory: ' + e.message);
+    patternEl.innerHTML = '';
+  }
+}
+
+/* ── Add Event ── */
+function resetForm() {
+  ['f-type','f-dept','f-title','f-desc','f-severity','f-status','f-date'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+}
+
+async function submitEvent() {
+  const type     = document.getElementById('f-type').value;
+  const title    = document.getElementById('f-title').value.trim();
+  const dept     = document.getElementById('f-dept').value;
+  const desc     = document.getElementById('f-desc').value.trim();
+  const severity = document.getElementById('f-severity').value;
+  const status   = document.getElementById('f-status').value;
+  const date     = document.getElementById('f-date').value;
+
+  if (!type || !title || !severity || !status || !date) {
+    showToast('Please fill in all required fields.', 'error');
+    return;
+  }
+
+  const btn = document.querySelector('.btn-primary');
+  const orig = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = `<div class="spinner" style="width:16px;height:16px;border-width:2px;border-color:rgba(255,255,255,.3);border-top-color:#fff;"></div> Submitting…`;
+
+  try {
+    await api('/event', {
+      method: 'POST',
+      body: JSON.stringify({ event_type: type, title, department: dept, description: desc, severity, status, date })
+    });
+    showToast('Event submitted successfully!');
+    resetForm();
+    // Auto-reload timeline
+    setTimeout(() => loadDashboardTimeline(), 500);
+  } catch(e) {
+    showToast('Failed to submit event: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = orig;
+  }
+}
+
+/* ── Refresh All ── */
+function refreshAll() {
+  const active = document.querySelector('.view.active');
+  if (active) {
+    const id = active.id.replace('view-', '');
+    loadView(id);
+  }
+  showToast('Data refreshed!');
+}
+
+/* ── Init ── */
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
+  loadDashboard();
+  loadAlerts();
+  loadRiskPanel();
+  loadDashboardTimeline();
+});
+    </script>
+</body>
+
+</html>
